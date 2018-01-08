@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
-		id          = "TachoSerwis"
+		id          = "myfirstapp"
         version     = "1.0.0" >
 
-    <name>TachoSerwis</name>
-    <description>Aplikacja do legalizowania tachografów</description>
+    <name>Data</name>
+    <description>uzywanie bazy danych</description>
     <author href="http://mypersonalwebsite.com" email=" ">
-		F.H.U. Jakub Mrowca
+		Koziol Ziom
 	</author>
 	<platform name="android" />
 	
