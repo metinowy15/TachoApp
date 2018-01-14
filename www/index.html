@@ -71,8 +71,8 @@
                             <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
                         </li>
                         <li data-theme="b">
-                            <a href="#">
-                                <h5>Dni do końca:
+                            <a ng-click="mCtrl.call(leg)" href="#">
+                                <h5 ng-class="{dayToEnd: leg.DayToEnd <= 5}">Dni do końca:
                                     <strong>{{leg.DayToEnd}}</strong>
                                 </h5>
                                 <h5>Tel:<strong>{{leg.PhoneNumber}}</strong></h5>
@@ -126,7 +126,7 @@
                             </li>
                             <li data-theme="b">
                                 <a ng-click="lCtrl.call(leg)" href="#">
-                                    <h5>Dni do końca:
+                                    <h5 ng-class="{dayToEnd: leg.DayToEnd <= 5}">Dni do końca:
                                         <strong>{{leg.DayToEnd}}</strong>
                                     </h5>
                                     <h5>Rejestracja:

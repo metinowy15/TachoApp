@@ -15,6 +15,10 @@ function mainCtrl($scope,repository,jsonParser){
         });
     }
 
+    ctrl.call = function (leg){
+        window.plugins.CallNumber.callNumber(function(){}, function(){}, leg.PhoneNumber, true);
+    }
+
     ctrl.reLegalize = function (legalizationId){
         repository.reLegalize(legalizationId).then(data => {
             ctrl.findForReg();
