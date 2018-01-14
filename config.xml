@@ -4,14 +4,21 @@
 		id          = "myfirstapp"
         version     = "1.0.0" >
 
-    <name>Data</name>
-    <description>uzywanie bazy danych</description>
+    <name>TachoSerwis</name>
+    <description>Aplikacja do legalizowania tachografow</description>
     <author href="http://mypersonalwebsite.com" email=" ">
-		Koziol Ziom
+		F.H.U. Jakub Mrowca
 	</author>
 	<platform name="android" />
 	
 	<plugin name="cordova-plugin-device" spec="~1.1.4" />
 	<plugin name="cordova-plugin-dialogs" spec="~1.3.1" />
+	<plugin name="cordova-plugin-call-number" />
+	<plugin name="cordova-plugin-whitelist" spec="~1.3.2" />
+
+<preference name="android-build-tool" value="gradle" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
+    <access origin="*" />
 
 </widget>

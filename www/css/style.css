@@ -1,3 +1,23 @@
 ﻿body
 {
 }
+.tachoButton{
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;
+    margin-top: 5px!important;
+}
+.legalization-type-Card{
+    background-color: darkorange!important;
+}
+.legalization-type-Tachograph{
+    background-color: crimson!important;
+}
+.legalization-type-Legalization{
+    background-color: forestgreen!important;
+}
+.tachograph-type-Digital{
+    background-color: dodgerblue!important;
+}
+.tachograph-type-Analog{
+    background-color: purple!important;   
+}

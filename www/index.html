@@ -3,7 +3,7 @@
 <html ng-app="tachoSerwis" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1" />
     <title></title>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
@@ -15,11 +15,11 @@
     <script src="js/Script1.js"></script>
     <script src="app/tachoSerwis.js"></script>
     <script src="app/repositories/repository.js"></script>
+    <script src="app/services/jsonParser.js"></script>
     <script src="cordova.js"></script>
 </head>
 
 <body>
-
     <div ng-controller="mainCtrl as mCtrl" data-role="page" id="Main">
         <div data-role="header" data-theme="a">
             <h1>Tacho serwis</h1>
@@ -29,13 +29,10 @@
                         <a href="#">Nowa</a>
                     </li>
                     <li>
-                        <a href="#Drużyna">Szukaj</a>
+                        <a href="#">Szukaj</a>
                     </li>
                     <li>
-                        <a href="#Mecze">Sprawdź</a>
-                    </li>
-                    <li>
-                        <a href="#Mapa">Wyloguj</a>
+                        <a href="#Last">Sprawdź</a>
                     </li>
                 </ul>
             </div>
@@ -43,42 +40,124 @@
         <div style="padding:10px;" data-theme="a" data-role="main">
             <fieldset class="ui-grid-a">
                 <div class="ui-block-a">
-                    <input type="search" name="search-mini" id="search-mini" ng-model="mCtrl.registration" value="" data-mini="true" />
+                    <input type="search" placeholder="Rejestracja..." name="search-mini" id="search-mini" ng-model="mCtrl.registration" value=""
+                        data-mini="true" />
                 </div>
                 <div class="ui-block-b">
-                    <button type="submit" ng-click="mCtrl.findForReg()" data-theme="c">Cancel</button>
+                    <button class="tachoButton" type="submit" ng-click="mCtrl.findForReg()" data-theme="a">Szukaj</button>
                 </div>
-
             </fieldset>
+            <hr>
+            <div ng-show="mCtrl.showLeg">
+                <div style="text-align:center">
+                    <div class="ui-grid-c">
+                        <h4 class="ui-block-a">Rej:</h4>
+                        <h4 class="ui-block-b">Model:</h4>
+                        <h4 class="ui-block-c">Marka:</h4>
+                        <h4 class="ui-block-d">Licznik</h4>
+                    </div>
 
-            <div style="margin-top:15px" ng-show="mCtrl.showLeg">
-                <div class="ui-grid-b">
-                    <h3 class="ui-block-a">Rejestracja:</h3>
-                    <h3 class="ui-block-b">Model:</h3>
-                    <h3 class="ui-block-c">Marka:</h3>
+                    <div class="ui-grid-c">
+                        <h4 class="ui-block-a">{{mCtrl.legArray[0].Registration}}</h4>
+                        <h4 class="ui-block-b">{{mCtrl.legArray[0].Model}}</h4>
+                        <h4 class="ui-block-c">{{mCtrl.legArray[0].Brand}}</h4>
+                        <h4 class="ui-block-d">{{mCtrl.legArray[0].Tachograph}}</h4>
+                    </div>
+                    <br>
                 </div>
-
-                <div class="ui-grid-b">
-                    <h3 class="ui-block-a">{{mCtrl.legArray[0].registration}}</h3>
-                    <h3 class="ui-block-b">{{mCtrl.legArray[0].model}}</h3>
-                    <h3 class="ui-block-c">{{mCtrl.legArray[0].brand}}</h3>
-                </div>
-
-
                 <div ng-click="mCtrl.reLegalize(leg.id)" ng-repeat="leg in mCtrl.legArray">
-                    <hr>
-                    <h5>Dni do końca: {{leg.dayToEnd}}</h5>
-                    <h5>Nazwa frimy: {{leg.companyName}}</h5>
-                    <h5>Rodzaj tachografu: {{leg.tachograph}}</h5>
-                    <h5>Rodzaj usługi: {{leg.legalizationType}}</h5>
-                    <h5>Numer tachografu: {{leg.tachographNr}}</h5>
-                    <h5>Symbol tachografu: {{leg.tachographSymbol}}</h5>
+                    <ul data-role="listview" data-inset="true">
+                        <li data-theme="b" data-role="list-divider">{{leg.DateTo}}
+                            <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
+                        </li>
+                        <li data-theme="b">
+                            <a href="#">
+                                <h5>Dni do końca:
+                                    <strong>{{leg.DayToEnd}}</strong>
+                                </h5>
+                                <h5>Tel:<strong>{{leg.PhoneNumber}}</strong></h5>
+                                <p>Nazwa frimy:
+                                    <strong>{{leg.Name}}</strong>
+                                </p>
+                                <p>Kierowca:
+                                    <strong>{{leg.DriverName}}</strong>
+                                </p>
+                                <p>Numer tachografu:
+                                    <strong>{{leg.TachographNr}}</strong>
+                                </p>
+                                <p>Symbol tachografu:
+                                    <strong>{{leg.TachographSymbol}}</strong>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <br/>
                 </div>
 
             </div>
 
         </div>
     </div>
+    <div ng-controller="lastCtrl as lCtrl" data-role="page" id="Last">
+            <div data-role="header" data-theme="a">
+                <h1>Tacho serwis</h1>
+                <div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a href="#">Nowa</a>
+                        </li>
+                        <li>
+                            <a href="#Main">Szukaj</a>
+                        </li>
+                        <li>
+                            <a href="#Last">Sprawdź</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div style="padding:10px;" data-theme="a" data-role="main">
+                <hr>
+                <div>
+                    <h3>Zbliżające się:</h3>
+                    <div  ng-repeat="leg in lCtrl.legArray">
+                        <ul data-role="listview" data-inset="true">
+                            <li data-theme="b" data-role="list-divider">{{leg.DateTo}}
+                                <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
+                            </li>
+                            <li data-theme="b">
+                                <a ng-click="lCtrl.call(leg)" href="#">
+                                    <h5>Dni do końca:
+                                        <strong>{{leg.DayToEnd}}</strong>
+                                    </h5>
+                                    <h5>Rejestracja:
+                                            <strong>{{leg.Registration}}</strong>
+                                    </h5>
+                                    <p>Nazwa frimy:
+                                        <strong>{{leg.Name}}</strong>
+                                    </p>
+                                    <p>Telefon:
+                                        <strong>{{leg.PhoneNumber}}</strong>
+                                    </p>
+                                    <p>Kierowca:
+                                        <strong>{{leg.DriverName}}</strong>
+                                    </p>
+                                    <p>Numer tachografu:
+                                        <strong>{{leg.TachographNr}}</strong>
+                                    </p>
+                                    <p>Symbol tachografu:
+                                        <strong>{{leg.TachographSymbol}}</strong>
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
+                        <br/>
+                    </div>
+    
+                </div>
+    
+            </div>
+        </div>
+
 </body>
 
 </html>
