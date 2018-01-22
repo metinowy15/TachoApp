@@ -8,10 +8,13 @@ function mainCtrl($scope,repository,jsonParser){
     ctrl.showLeg = false;
 
     ctrl.findForReg = function(){
+        ctrl.showSpinner = true;
+        ctrl.showLeg = false;
         repository.getForRegistration(ctrl.registration).then(data => {
             ctrl.legArray = jsonParser.parseLegForRegistration(data);
             ctrl.showLeg = true;
             $scope.$apply();
+            ctrl.showSpinner = false;
         });
     }
 

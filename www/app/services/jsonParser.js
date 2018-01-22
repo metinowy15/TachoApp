@@ -25,6 +25,11 @@ function jsonParser() {
         if (leg.LegalizationType === 'Tachograph')
             dateTo = addDays(dateFrom, 91)
         leg.DateTo = dateTo.toISOString().slice(0,10);
+
+        var dT = moment(leg.DateTo);
+        var dN = moment();
+        
+        leg.DayToEnd = Math.round(dT.diff(dN,'days'),1);
     }
 
     function addDays(date, days) {
