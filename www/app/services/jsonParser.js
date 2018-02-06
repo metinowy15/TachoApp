@@ -4,9 +4,10 @@ function jsonParser() {
     return { parseLegForRegistration: parseLegForRegistration }
 
     function parseLegForRegistration(data) {
+        if(data == "[]")
+            return false;
         var parseData = JSON.parse(data);
         var legArray = parseData.leg;
-
         for (let i = 0; i < legArray.length; i++) {
             legArray[i].DriverName = legArray[i].FirstName + " " + legArray[i].LastName;
             setDateTo(legArray[i]);

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
     <link rel="stylesheet" href="css/TachoSerwis.min.css" />
     <link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
-    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/fa-svg-with-js.css" />
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/jquery.mobile-1.4.5.min.js"></script>
     <script src="js/angular.min.js"></script>
@@ -17,21 +17,22 @@
     <script src="app/tachoSerwis.js"></script>
     <script src="app/repositories/repository.js"></script>
     <script src="app/services/jsonParser.js"></script>
+    <script src="js/fontawesome-all.min.js"></script>
     <script src="js/moment/min/moment-with-locales.min.js"></script>
     <script src="cordova.js"></script>
 </head>
 
-<body>
-    <div ng-controller="mainCtrl as mCtrl" data-role="page" id="Main">
+<body ng-controller="mainCtrl as mCtrl">
+    <div data-role="page" id="Main">
         <div data-role="header" data-theme="a">
             <h1>Tacho serwis</h1>
             <div data-role="navbar">
                 <ul>
                     <li>
-                        <a href="#">Wyjdź</a>
+                        <a href="#Company">Firma</a>
                     </li>
                     <li>
-                        <a href="#">Szukaj</a>
+                        <a href="#">Pojazd</a>
                     </li>
                     <li>
                         <a href="#Last">Sprawdź</a>
@@ -51,7 +52,7 @@
             </fieldset>
             <hr>
             <div ng-show="mCtrl.showSpinner" class="loadingSpinner">
-                <i style="" class="fa fa-spinner fa-4xs fa-spin"></i>
+                <i style="" class="fas fa-spinner fa-5x"></i>
             </div>
             <div ng-show="mCtrl.showLeg">
                 <div style="text-align:center">
@@ -70,17 +71,19 @@
                     </div>
                     <br>
                 </div>
-                <div ng-click="mCtrl.reLegalize(leg.id)" ng-repeat="leg in mCtrl.legArray">
+                <div ng-repeat="leg in mCtrl.legArray">
                     <ul data-role="listview" data-inset="true">
                         <li data-theme="b" data-role="list-divider">{{leg.DateTo}}
                             <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
                         </li>
                         <li data-theme="b">
-                            <a ng-click="mCtrl.call(leg)" href="#">
+                            <a ng-click="mCtrl.showOptions(leg)" href="#">
                                 <h5 ng-class="{dayToEnd: leg.DayToEnd <= 5}">Dni do końca:
                                     <strong>{{leg.DayToEnd}}</strong>
                                 </h5>
-                                <h5>Tel:<strong>{{leg.PhoneNumber}}</strong></h5>
+                                <h5>Tel:
+                                    <strong>{{leg.PhoneNumber}}</strong>
+                                </h5>
                                 <p>Nazwa frimy:
                                     <strong>{{leg.Name}}</strong>
                                 </p>
@@ -103,66 +106,203 @@
 
         </div>
     </div>
-    <div ng-controller="lastCtrl as lCtrl" data-role="page" id="Last">
-            <div data-role="header" data-theme="a">
-                <h1>Tacho serwis</h1>
-                <div data-role="navbar">
-                    <ul>
-                        <li>
-                            <a href="#">Nowa</a>
-                        </li>
-                        <li>
-                            <a href="#Main">Szukaj</a>
-                        </li>
-                        <li>
-                            <a href="#Last">Sprawdź</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div style="padding:10px;" data-theme="a" data-role="main">
-                <hr>
-                <div>
-                    <h3>Zbliżające się:</h3>
-                    <div  ng-repeat="leg in lCtrl.legArray">
-                        <ul data-role="listview" data-inset="true">
-                            <li data-theme="b" data-role="list-divider">{{leg.DateTo}}
-                                <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
-                            </li>
-                            <li data-theme="b">
-                                <a ng-click="lCtrl.call(leg)" href="#">
-                                    <h5 ng-class="{dayToEnd: leg.DayToEnd <= 5}">Dni do końca:
-                                        <strong>{{leg.DayToEnd}}</strong>
-                                    </h5>
-                                    <h5>Rejestracja:
-                                            <strong>{{leg.Registration}}</strong>
-                                    </h5>
-                                    <p>Nazwa frimy:
-                                        <strong>{{leg.Name}}</strong>
-                                    </p>
-                                    <p>Telefon:
-                                        <strong>{{leg.PhoneNumber}}</strong>
-                                    </p>
-                                    <p>Kierowca:
-                                        <strong>{{leg.DriverName}}</strong>
-                                    </p>
-                                    <p>Numer tachografu:
-                                        <strong>{{leg.TachographNr}}</strong>
-                                    </p>
-                                    <p>Symbol tachografu:
-                                        <strong>{{leg.TachographSymbol}}</strong>
-                                    </p>
-                                </a>
-                            </li>
-                        </ul>
-                        <br/>
-                    </div>
-    
-                </div>
-    
+
+    <div data-role="page" id="Last">
+        <div data-role="header" data-theme="a">
+            <h1>Tacho serwis</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#Company">Firma</a>
+                    </li>
+                    <li>
+                        <a href="#Main">Pojazd</a>
+                    </li>
+                    <li>
+                        <a href="#Last">Sprawdź</a>
+                    </li>
+                </ul>
             </div>
         </div>
+        <div style="padding:10px;" data-theme="a" data-role="main">
+            <hr>
+            <h3>
+                <span style="color:#333">Zbliżające się: </span>
+                <a style="float:right;color:#d9534f" ng-click="mCtrl.findLast()">
+                    <span style="margin-right:3px">
+                        <i class="fas fa-sync-alt"></i>
+                    </span>Odśwież</a>
+            </h3>
+            <div ng-repeat="leg in mCtrl.lastArray">
+                <ul data-role="listview" data-inset="true">
+                    <li data-theme="b" data-role="list-divider">{{leg.DateTo}}
+                        <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
+                    </li>
+                    <li data-theme="b">
+                        <a ng-click="mCtrl.showOptions(leg)" href="#">
+                            <h5 ng-class="{dayToEnd: leg.DayToEnd <= 5}">Dni do końca:
+                                <strong>{{leg.DayToEnd}}</strong>
+                            </h5>
+                            <h5>Rejestracja:
+                                <strong>{{leg.Registration}}</strong>
+                            </h5>
+                            <p>Nazwa frimy:
+                                <strong>{{leg.Name}}</strong>
+                            </p>
+                            <p>Telefon:
+                                <strong>{{leg.PhoneNumber}}</strong>
+                            </p>
+                            <p>Kierowca:
+                                <strong>{{leg.DriverName}}</strong>
+                            </p>
+                            <p>Numer tachografu:
+                                <strong>{{leg.TachographNr}}</strong>
+                            </p>
+                            <p>Symbol tachografu:
+                                <strong>{{leg.TachographSymbol}}</strong>
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+                <br/>
+            </div>
 
+        </div>
+    </div>
+
+    <div data-role="page" id="Company">
+        <div data-role="header" data-theme="a">
+            <h1>Tacho serwis</h1>
+            <div data-role="navbar">
+                <ul>
+                    <li>
+                        <a href="#">Firma</a>
+                    </li>
+                    <li>
+                        <a href="#Main">Pojazd</a>
+                    </li>
+                    <li>
+                        <a href="#Last">Sprawdź</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="padding:10px;" data-theme="a" data-role="main">
+            <!-- <form class="ui-filterable">
+
+                <input id="inset-autocomplete-input" data-type="search" placeholder="Search cars...">
+            </form>
+            <ul data-role="listview" data-inset="true" data-filter="true" data-filter-reveal="true" data-input="#inset-autocomplete-input">
+
+                <li ng-repeat="company in mCtrl.companyArray">
+                    <a ng-click="mCtrl.findForNip(company.Nip)">{{company.Name}}</a>
+                </li>
+            </ul> -->
+            <fieldset class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <input type="search" placeholder="Nip..." name="search-mini" id="search-mini" ng-model="mCtrl.nip" value=""
+                            data-mini="true" />
+                    </div>
+                    <div class="ui-block-b">
+                        <button class="tachoButton" type="submit" ng-click="mCtrl.findForNip()" data-theme="a">Szukaj</button>
+                    </div>
+                </fieldset>
+            <hr>
+            <div ng-show="mCtrl.showSpinner" class="loadingSpinner">
+                <i style="" class="fa fa-spinner fa-4xs fa-spin"></i>
+            </div>
+            <div ng-show="mCtrl.showLeg">
+                <div .style="text-align:center">
+                    <div class="ui-grid-a">
+                        <h4 class="ui-block-a">Nip:</h4>
+                        <h4 class="ui-block-b">Nazwa:</h4>
+                    </div>
+
+                    <div class="ui-grid-a">
+                        <h4 class="ui-block-a">{{mCtrl.nip}}</h4>
+                        <h4 class="ui-block-b">{{mCtrl.legForCompany[0].Name}}</h4>
+                    </div>
+                    <h3 style="color:#d9534f">Tel Firma: {{mCtrl.legForCompany[0].PhoneNumberF}}</h3>
+                </div>
+                <div ng-repeat="leg in mCtrl.legForCompany">
+                    <ul data-role="listview" data-inset="true">
+                        <li data-theme="b" data-role="list-divider">{{leg.DateTo}}
+                            <span style="color:white" class="ui-li-count legalization-type-{{leg.LegalizationType}}">{{leg.LegalizationType[0]}}</span>
+                        </li>
+                        <li data-theme="b">
+                            <a ng-click="mCtrl.showOptions(leg)" href="#">
+                                <h5 ng-class="{dayToEnd: leg.DayToEnd <= 5}">Dni do końca:
+                                    <strong>{{leg.DayToEnd}}</strong>
+                                </h5>
+
+                                <h5>Rejestracja:
+                                    <strong>{{leg.Registration}}</strong>
+                                </h5>
+                                <p>Kierowca:
+                                    <strong>{{leg.DriverName}}</strong>
+                                </p>
+                                <p>Tel:
+                                    <strong>{{leg.PhoneNumber}}</strong>
+                                </p>
+                                <p>Numer tachografu:
+                                    <strong>{{leg.TachographNr}}</strong>
+                                </p>
+                                <p>Symbol tachografu:
+                                    <strong>{{leg.TachographSymbol}}</strong>
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                    <br/>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div id="navigateBar">
+        <div style="padding-left:10px;padding-top:6px">
+            <a style="color:#333;margin-right:10px" ng-click="mCtrl.call()" href="#">
+                <i class="fas fa-phone-square fa-3x"></i>
+            </a>
+            <a style="color:#333;margin-right:10px" ng-click="mCtrl.sms()" href="#">
+                <i class="fas fa-envelope-square fa-3x"></i>
+            </a>
+            <a style="color:#333;margin-right:10px" ng-click="mCtrl.relegalize()" href="#">
+                <i class="fab fa-algolia fa-3x"></i>
+            </a>
+            <a style="float:right;color:#333;margin-right:10px" ng-click="mCtrl.hide()" href="#">
+                <i class="fas fa-window-close fa-3x"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- <div id="infoBar">
+        <div style="padding-left:10px;padding-top:6px">
+            <a style="color:#eee;margin-right:10px" ng-click="mCtrl.call()" href="#">
+                <i class="fas fa-phone-square fa-3x"></i>
+            </a>
+            <a style="color:#eee;margin-right:10px" ng-click="mCtrl.sms()" href="#">
+                <i class="fas fa-envelope-square fa-3x"></i>
+            </a>
+        </div>
+    </div> -->
+
+    <div id="confirmBar">
+        <div style="padding-left:10px;padding-top:6px">
+            <div style="text-align:center">
+                <span style="text-shadow:none">
+                    <strong>{{mCtrl.confirmMsg}}</strong>
+                </span>
+            </div>
+            <a style="color:#333;margin-left:10px" ng-click="mCtrl.acceptAction()" href="#">
+                <i class="fas fa-check-square fa-3x"></i>
+            </a>
+            <a style="float:right;color:#333;margin-right:20px" ng-click="mCtrl.cancel()" href="#">
+                <i class="fas fa-window-close fa-3x"></i>
+            </a>
+        </div>
+    </div>
 </body>
 
 </html>

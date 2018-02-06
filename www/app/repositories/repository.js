@@ -5,6 +5,7 @@ function repository() {
     return {
         getForRegistration: getForRegistration,
         reLegalize: reLegalize,
+        getForNip: getForNip,
         getLast: getLast
     }
 
@@ -27,6 +28,16 @@ function repository() {
             type: "POST",
             data: {
                 registration: registration
+            }
+        });
+    }
+
+    function getForNip(nip) {
+        return $.ajax({
+            url: "http://czasnasolidarnosc.pl/TachoSerwis/getForNip.php",
+            type: "POST",
+            data: {
+                nip: nip
             }
         });
     }

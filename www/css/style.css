@@ -25,9 +25,45 @@
     color: red!important;
 }
 
+.ui-bar-b{
+    background-color: #333!important;
+    border-color: black!important;
+}
+
 .loadingSpinner{
     position: absolute;
     top: 50%;
     left: 50%
     
+}
+#navigateBar{
+    position: fixed;
+    z-index: 100;
+    background-color: #f95f5a;
+    width: 100%;
+    height: 0px;
+    bottom: 0px!important;
+    overflow: hidden;
+    transition-duration: 0.5s
+}
+#infoBar{
+    position: fixed;
+    z-index: 100;
+    background-color: forestgreen;
+    width: 100%;
+    overflow: hidden;
+    height: 0px;
+    top: 0px!important;
+    transition-duration: 0.5s;
+}
+
+#confirmBar{
+    position: fixed;
+    z-index: 101;
+    background-color:#2f96b4;
+    width: 100%;
+    height: 0px;
+    overflow: hidden;
+    top: 0px!important;
+    transition-duration: 0.5s;
 }
