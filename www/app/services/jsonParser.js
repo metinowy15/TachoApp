@@ -9,7 +9,10 @@ function jsonParser() {
         var parseData = JSON.parse(data);
         var legArray = parseData.leg;
         for (let i = 0; i < legArray.length; i++) {
-            legArray[i].DriverName = legArray[i].FirstName + " " + legArray[i].LastName;
+            var nameFirst = legArray[i].FirstName =="null" || legArray[i].FirstName == null ? "" : legArray[i].FirstName;
+            var nameLast = legArray[i].LastName =="null" || legArray[i].LastName == null ? "" : legArray[i].LastName;
+            
+            legArray[i].DriverName = nameFirst+ " " + nameLast;
             setDateTo(legArray[i]);
         }
 

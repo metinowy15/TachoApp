@@ -5,8 +5,8 @@ function repository() {
     return {
         getForRegistration: getForRegistration,
         reLegalize: reLegalize,
-        getForNip: getForNip,
-        getLast: getLast
+        getLast: getLast,
+        getForNip: getForNip
     }
 
     function reLegalize(legalizationCommand) {
@@ -15,29 +15,29 @@ function repository() {
         });
     }
 
+    function getForNip(nip){
+        return $.ajax({
+            url: "http://solidarnosclukowica.pl/TachoSerwis/getFornNip.php",
+            type: "POST",
+            data: {
+                nip: nip
+            }
+        });
+    }
+
     function getLast() {
         return $.ajax({
-            url: "http://czasnasolidarnosc.pl/TachoSerwis/getLast.php",
+            url: "http://solidarnosclukowica.pl/TachoSerwis/getLast.php",
             type: "POST"
         });
     }
 
     function getForRegistration(registration) {
         return $.ajax({
-            url: "http://czasnasolidarnosc.pl/TachoSerwis/getForRegistration.php",
+            url: "http://solidarnosclukowica.pl/TachoSerwis/getForRegistration.php",
             type: "POST",
             data: {
                 registration: registration
-            }
-        });
-    }
-
-    function getForNip(nip) {
-        return $.ajax({
-            url: "http://czasnasolidarnosc.pl/TachoSerwis/getForNip.php",
-            type: "POST",
-            data: {
-                nip: nip
             }
         });
     }

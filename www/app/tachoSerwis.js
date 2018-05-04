@@ -28,30 +28,17 @@ function mainCtrl($scope, repository, jsonParser) {
     }
 
     ctrl.call = function (leg) {
-        showConfirmBar("Czy chcesz zadzwonić?")
 
-        action = function () {
-            window.plugins.CallNumber.callNumber(function () { }, function () { }, selectedLeg.PhoneNumber, true);
-        }
-
+        window.plugins.CallNumber.callNumber(function () { }, function () { }, selectedLeg.PhoneNumber, true);
     }
 
     ctrl.relegalize = function () {
-        showConfirmBar("Czy chcesz ponowić legalizacje?")
 
-        action = function () {
-            repository.reLegalize(selectedLeg.id).then(data => {
-            });
-        }
     }
 
     ctrl.sms = function () {
-        showConfirmBar("Czy chcesz wysłać wiadomośc SMS?")
 
-        action = function () {
-            if (SMS) SMS.sendSMS([selectedLeg.PhoneNumber], getSmsText(), function () { }, function (str) { alert(str); });
-        }
-
+        if (SMS) SMS.sendSMS([selectedLeg.PhoneNumber], getSmsText(), function () { }, function (str) { alert(str); });
     }
 
     ctrl.findLast = function () {
@@ -116,26 +103,7 @@ function mainCtrl($scope, repository, jsonParser) {
         }
     }
 
-    function showConfirmBar(message) {
-        var z = document.getElementById("confirmBar");
-        z.style.height = "80px";
-        ctrl.confirmMsg = message;
-        var k = document.getElementById("navigateBar");
-        k.style.height = "0px";
-    }
-
     ctrl.cancel = function () {
-        var z = document.getElementById("confirmBar");
-        z.style.height = "0px";
-        ctrl.confirmMsg = "";
         ctrl.selectedLeg = null;
-    }
-
-    ctrl.acceptAction = function () {
-        var z = document.getElementById("confirmBar");
-        z.style.height = "0px";
-        ctrl.confirmMsg = "";
-
-        action();
     }
 }
